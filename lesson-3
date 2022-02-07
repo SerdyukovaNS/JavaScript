@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1. С помощью цикла while вывести все простые числа в промежутке от 0 до 100.-->
+    <script>
+        let nums = 2;
+        while (nums <= 100) {
+            let check = true;
+            for (let i = 2; i < nums; i++){
+                if (nums%i === 0) {
+                    check = false;
+                    break;
+                }
+            }
+            if (check) console.log(nums);
+            nums++;
+        }
+    </script>
+
+    <!--2. С этого урока начинаем работать с функционалом интернет-магазина. Предположим, есть сущность корзины. Нужно реализовать функционал подсчета стоимости корзины в зависимости от находящихся в ней товаров. Товары в корзине хранятся в массиве. Задачи:
+    a) Организовать такой массив для хранения товаров в корзине;
+    b) Организовать функцию countBasketPrice, которая будет считать стоимость корзины.-->
+    <script>
+        var basket = [
+    {
+        title: 'Товар-1',
+        price: 1000,
+        count: 3
+    },
+    {
+        title: 'Товар-2',
+        price: 2000,
+        count: 5
+    },
+    {
+        title: 'Товар-3',
+        price: 700,
+        count: 1
+    },
+    ];
+
+    function countBasketPrice() {
+		var sum = 0;
+		for (var item of basket) {
+			sum += (item.price * item.count);
+		}
+			console.log('Стоимость выбранных товаров в корзине составляет, руб.: ' + sum + '.');
+	}
+
+	countBasketPrice();
+    </script>
+
+<!-- 3.*Вывести с помощью цикла for числа от 0 до 9, не используя тело цикла. Выглядеть это должно так:
+for(…){// здесь пусто}-->
+    <script>
+        for (let i = 0; i < 10; console.log(i++)) {}
+    </script>
+
+<!-- 4. *Нарисовать пирамиду с помощью console.log, как показано на рисунке, только у вашей пирамиды должно быть 20 рядов, а не 5:-->
+    <script>
+        let row = 'x';
+        for (let i = 0; i < 20; i++){
+            console.log(row);
+            row += 'x';
+        }
+    </script>
+
+</body>
+</html>
