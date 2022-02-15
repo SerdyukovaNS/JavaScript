@@ -50,7 +50,7 @@
     const cart = {
 		goods: [
 		    {
-			    product_name: 'product_1',
+	        product_name: 'product_1',
                 price: 700,
                 count: 2	
 		    },
