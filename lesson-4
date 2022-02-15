@@ -47,43 +47,31 @@
 2.2. Реализуйте такие объекты.
 2.3. Перенести функционал подсчета корзины на объектно-ориентированную базу.-->
 <script>
-    function basket(product, price, quantity) {
-        this.product = product;
-        this.price = price;
-        this.quantity = quantity;
-        this.showMyChart = function() {
-            return `${this.product}, стоимость: ${this.price}, количество: ${this.quantity}`;
-        }
-    }
+    const cart = {
+		goods: [
+		    {
+			    product_name: 'product_1',
+                price: 700,
+                count: 2	
+		    },
+            {
+                product_name: 'product_2',
+                price: 1200,
+                count: 4	
+            },
+            {
+                product_name: 'product_3',
+                price: 4500,
+                count: 3
+            }
+			],
+		totalPrice() {
+            return this.goods.reduce((sum, item) => sum + item.price * item.count, 0);   
+			},
+						
+	}
+    console.log(cart.totalPrice());
 
-    let shoppingCart = []
-
-    shoppingCart.push(
-        new basket('product_1', 700, 2)
-    );
-    shoppingCart.push(
-        new basket('product_2', 1200, 4)
-    );
-    shoppingCart.push(
-        new basket('product_3', 4500, 3)
-    );
-
-
-    function finalChart(shoppingCart) {
-        console.log('Ваш заказ: ')
-        shoppingCart.forEach(val => {
-        console.log (`${val.showMyChart()}, итого: ${val.quantity * val.price}`);
-        });
-    }
-    finalChart(shoppingCart);
-
-
-    function finalCost(shoppingCart) {
-        return shoppingCart.reduce(function (sum, shoppingCart){
-            return sum + (shoppingCart.price * shoppingCart.quantity)
-        }, 0)
-    };
-    console.log('Стоимость заказа: ' + finalCost(shoppingCart));
 </script>
 
 
