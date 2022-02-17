@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="cart"></div>
+    
+    <script>
+
+    const cartElement = {
+    render(good) {
+        return `<div class="good">
+                    <div><b>Наименование товара</b>: ${good.product_name}</div>
+                    <div><b>Стоимость за ед.</b>: ${good.price}</div>
+                    <div><b>Количество</b>: ${good.count}</div>
+                    <div><b>Итого</b>: ${good.count * good.price}</div>
+                </div>`;
+    }
+}
+
+    const cart = {
+    cartBlock: null,
+    cartElement,
+    goods: [
+        {
+        product_name: 'product_1',
+        price: 18000,
+        count: 3,
+        },
+        {
+        product_name: 'product_2',
+        price: 7900,
+        count: 1,
+        },
+        {
+            product_name: 'product_3',
+            price: 5000,
+            count: 4,
+        },
+    ],
+    
+    totalPrice() {
+        return this.goods.reduce(function (price, good) {
+            return price + good.price * good.count;
+        }, 0);
+    },
+
+    render() {
+        if (this.goods.length) {
+            this.goods.forEach(good => {
+                this.cartBlock.insertAdjacentHTML('beforeend', this.cartElement.render(good));
+            });
+            this.cartBlock
+                .insertAdjacentHTML('beforeend', `В корзине: ${this.goods.length} товара(ов) на сумму ${this.totalPrice()} рублей`);
+        } else {
+            this.cartBlock.textContent = 'Корзина пуста';
+        }
+    },
+
+    init() {
+        this.cartBlock = document.querySelector('.cart');
+        this.render();
+    },
+       
+};
+
+cart.init();
+       
+    </script>
+
+</body>
+</html>
