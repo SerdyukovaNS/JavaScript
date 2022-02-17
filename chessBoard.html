@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+          border-collapse: collapse;
+        }
+        tr {
+          width: 50px;
+          height: 50px;
+        }
+        td {
+          border: 1px solid #0a0a0a;
+          width: 50px;
+          height: 50px;
+          background-color: #ffffff;
+          text-align: center;
+          font-size: 2em;
+        }
+      </style>
+</head>
+<body>
+
+<table id="chessBoard"></table>
+<script>
+const chess = {
+  chessContainerEl: document.getElementById('chessBoard'),
+
+  renderBoard() {
+    const rows = ['', '8', '7', '6', '5', '4', '3', '2', '1', ''];
+	const cols = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', ''];
+	  
+    for (let row = 0; row < rows.length; row++) {
+      const tr = document.createElement('tr');
+      this.chessContainerEl.appendChild(tr);
+
+      for (let col = 0; col < cols.length; col++) {
+        const td = document.createElement('td');
+        tr.appendChild(td);
+				
+        if (row == 9 && 0 <= col <= 9) {
+          td.innerHTML = cols[col];
+        } else if (row == 0 && 0 <= col <= 9){
+			td.innerHTML = cols[col];
+		} else if (row <=8 && col == 0) {
+          td.innerHTML = rows[row];
+        } else if (row <= 8 && col == 9){
+			td.innerHTML = rows[row]
+		} 
+				       
+        if (this.blackCell(row, col)) {
+          td.style.backgroundColor = '#000000';
+        }
+      }
+    }
+  },
+
+    blackCell(rowNum, colNum) {
+
+    if (rowNum === 0 || colNum === 0 || rowNum === 9 || colNum === 9) {
+      return false;
+    }
+	return (rowNum + colNum) % 2 === 1;
+    }, 
+
+};
+
+chess.renderBoard();
+</script>
+
+</body>
+</html>
