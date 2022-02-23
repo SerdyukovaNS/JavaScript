@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Каталог:</h2>
+    <div class="catalog"></div>
+    <hr>
+    <h2>Корзина:</h2>
+    <div class="cart"></div>
+    <button class="clear-cart">Очистить корзину</button>
+  
+
+
+    <script>
+    const catalog = {
+    catalogBlock: null,
+    cart: null,
+    itemCatalog: [
+        {
+            id_product: 123,
+            product_name: 'product_1',
+            price: 18000,
+        },
+        {
+            id_product: 456,
+            product_name: 'product_2',
+            price: 7900,
+        },
+        {
+            id_product: 789,
+            product_name: 'product_3',
+            price: 5000,
+        }
+    ],
+
+    init(catalogBlockClass, cart) {
+        this.catalogBlock = document.querySelector(`.${catalogBlockClass}`);
+        this.cart = cart;
+        this.render();
+        this.addEventHandlers();
+    },
+
+    
+    render() {
+        this.renderCatalogList();
+    },
+
+
+    addEventHandlers() {
+        this.catalogBlock.addEventListener('click', event => this.addToBasket(event));
+    },
+
+
+     getCatalogListLength() {
+        return this.itemCatalog.length;
+    },
+
+
+     renderCatalogList() {
+        this.catalogBlock.innerHTML = '';
+        this.itemCatalog.forEach(item => {
+            this.catalogBlock.insertAdjacentHTML('beforeend', this.renderCatalogItem(item));
+        });
+    },
+
+
+    addToBasket(event) {
+        if (!event.target.classList.contains('product__add-to-cart')) return;
+        const id_product = +event.target.dataset.id_product;
+        const productToAdd = this.itemCatalog.find((product) => product.id_product === id_product);
+        this.cart.addToBasket(productToAdd);
+    },
+
+
+    renderCatalogItem(item) {
+        return `<div class="product">
+                <h3>${item.product_name}</h3>
+                <p>${item.price} руб.</p>
+                <button class="product__add-to-cart" data-id_product="${item.id_product}">Купить</button>
+            </div>`;
+    },
+
+    
+};
+
+const cart = {
+    cartBlock: null,
+    clrCartButton: null,
+    goods: [
+        
+    ],
+
+    totalPrice() {
+        return this.goods.reduce(function (price, good) {
+            return price + good.price * good.count;
+        }, 0); 
+    
+    },
+
+    totalCount() {
+        return this.goods.reduce(function (count, good) {
+            return count + good.count;
+        }, 0); 
+    
+    },
+
+
+    init(cartBlockClass, clrCartButton) {
+        this.cartBlock = document.querySelector(`.${cartBlockClass}`);
+        this.clrCartButton = document.querySelector(`.${clrCartButton}`);
+        this.addEventHandlers();
+        this.render();
+    },
+
+
+    addEventHandlers() {
+        this.clrCartButton.addEventListener('click', this.clearCart.bind(this));
+    
+    },
+
+    clearCart() {
+        this.goods = [];
+        this.render();
+    },
+
+
+    render() {
+        if (this.getCartGoodsLength() > 0) {
+            this.renderCartList();
+            this.cartBlock
+                .insertAdjacentHTML('beforeend', `В корзине: ${this.totalCount()} товара(ов) на сумму ${this.totalPrice()} рублей`);
+         
+        } else {
+            this.renderEmptyCart();
+        }
+    },
+
+    addToBasket(product) {
+        const findInBasket = this.goods.find((item) => product.id_product === item.id_product);
+        if (findInBasket) {
+            findInBasket.count++;
+        } else {
+            this.goods.push({...product, count: 1});
+        }
+        this.render();     
+        
+    },
+
+    getCartGoodsLength() {
+        return this.goods.length;
+    },
+
+
+    renderEmptyCart() {
+        this.cartBlock.innerHTML = '';
+        this.cartBlock.textContent = 'Корзина пуста.';
+    },
+
+
+    renderCartList() {
+        this.cartBlock.innerHTML = '';
+        this.goods.forEach(item => {
+            this.cartBlock.insertAdjacentHTML('beforeend', this.renderCartItem(item));
+        });
+    },
+
+
+    renderCartItem(item) {
+        return `<div>
+                <h3>${item.product_name}</h3>
+                <p>${item.price} руб.</p>
+                <p>${item.count} шт.</p>
+            </div>`;
+    },
+
+};
+
+catalog.init('catalog', cart);
+cart.init('cart', 'clear-cart');
+
+    </script>
+</body>
+</html>
